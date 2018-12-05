@@ -1,0 +1,23 @@
+from Evoker import stream_annotate
+from database_script import create_connection, create_table, delete_table, create_topic, delete_topic, merge_topics
+
+
+
+def Coordinate(file_name,database_name,winow_size):
+    input_stream = stream_annotate("test_dataset.csv",5)
+    conn = create_connection("Topic_DB.db")
+    with conn:
+        delete_table(conn)
+        create_table(conn)
+        for i in input_stream:
+            l = next(input_stream)
+            for idx,val in enumerate(l):
+                if val=='SPLIT':
+                    
+                elif val=='SKIP':
+                    
+                else:
+                    
+                
+        
+    
