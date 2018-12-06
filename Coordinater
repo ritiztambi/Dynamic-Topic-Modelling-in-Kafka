@@ -1,23 +1,53 @@
 from Evoker import stream_annotate
-from database_script import create_connection, create_table, delete_table, create_topic, delete_topic, merge_topics
+from database_script import create_connection, create_table_topics, delete_table_topics,create_table_actions, delete_table_actions, create_topic, delete_topic, merge_topics, create_action, split_topics, export_log
+import datetime
+import time
+import os
 
 
+topics = ['blackfriday','sale','thanksgiving','brk','holiday','christmas','eve','gift','electronic']
 
-def Coordinate(file_name,database_name,winow_size):
+def Coordinate(file_name,window_size):
+    
     input_stream = stream_annotate("test_dataset.csv",5)
-    conn = create_connection("Topic_DB.db")
+    conn = create_connection("Kafka")
+    os.system('bash kafka-del-topics.sh')
+
     with conn:
-        delete_table(conn)
-        create_table(conn)
+        delete_table_topics(conn)
+        delete_table_actions(conn)
+        create_table_topics(conn)
+        create_table_actions(conn)
+     
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        create_topic(conn,[None,topics[0],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[0]))
+        create_topic(conn,[None,topics[1],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[1]))
+        create_topic(conn,[None,topics[2],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[2]))
+        create_topic(conn,[None,topics[3],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[3]))
+
+        
+        
         for i in input_stream:
             l = next(input_stream)
+            print(l)
             for idx,val in enumerate(l):
+                ts = time.time()
+                st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                create_action(conn,[topics[idx],val,st])
                 if val=='SPLIT':
-                    
+                    split_topics(conn,topics[idx])
                 elif val=='SKIP':
-                    
+                    None;
                 else:
-                    
-                
+                    merge_topics(conn,topics[idx])
+        
+        
+         
+        export_log(conn)
         
     
