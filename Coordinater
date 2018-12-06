@@ -21,6 +21,7 @@ def Coordinate(file_name,window_size):
      
         ts = time.time()
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        
         create_topic(conn,[None,topics[0],None,st])
         os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[0]))
         create_topic(conn,[None,topics[1],None,st])
@@ -29,6 +30,17 @@ def Coordinate(file_name,window_size):
         os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[2]))
         create_topic(conn,[None,topics[3],None,st])
         os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[3]))
+        create_topic(conn,[None,topics[4],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[4]))
+        create_topic(conn,[None,topics[5],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[5]))
+        create_topic(conn,[None,topics[6],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[6]))
+        create_topic(conn,[None,topics[7],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[7]))
+        create_topic(conn,[None,topics[8],None,st])
+        os.system('/usr/local/Cellar/kafka/2.0.0/libexec/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic {}'.format(topics[8]))
+
 
         
         
